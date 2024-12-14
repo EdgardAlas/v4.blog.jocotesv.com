@@ -15,6 +15,7 @@ const eslintConfig = [
 		rules: {
 			'no-console': 'warn',
 		},
+		ignorePatterns: ['node_modules/', '.next/', 'out/', 'tailwind.config.ts'],
 	}),
 ];
 
