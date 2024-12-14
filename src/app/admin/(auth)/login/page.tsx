@@ -1,4 +1,4 @@
-import { LoginForm } from '@/components/containers/login/login-form';
+import { LoginForm } from '@/app/admin/(auth)/login/containers/login-form';
 import { GalleryVerticalEnd } from 'lucide-react';
 import React from 'react';
 
