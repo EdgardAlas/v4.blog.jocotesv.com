@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import './globals.css';
+import { ConfirmDialogProvider } from '@/components/ui/confirm-dialog-provider';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -22,8 +23,10 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={`${geistSans.className} antialiased`}>
-				<NuqsAdapter>{children}</NuqsAdapter>
-				<Toaster richColors />
+				<ConfirmDialogProvider>
+					<NuqsAdapter>{children}</NuqsAdapter>
+					<Toaster richColors />
+				</ConfirmDialogProvider>
 			</body>
 		</html>
 	);
