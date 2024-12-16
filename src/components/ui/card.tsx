@@ -80,7 +80,7 @@ const SimpleCard = ({
 	return (
 		<div
 			className={cn(
-				'flex flex-col gap-4 rounded-md bg-white p-4 shadow-sm',
+				'rounded-md border bg-card p-4 text-card-foreground shadow-sm md:p-6',
 				className
 			)}
 			{...props}

@@ -8,7 +8,7 @@ interface PageHeaderProps {
 export const AdminHeader = ({ title }: PageHeaderProps) => {
 	return (
 		<header className='flex h-16 items-center justify-between gap-4 p-4'>
-			<div className='flex items-end gap-4'>
+			<div className='flex items-center gap-4'>
 				<SidebarTrigger />
 				<h1 className='text-2xl font-bold'>{title}</h1>
 			</div>

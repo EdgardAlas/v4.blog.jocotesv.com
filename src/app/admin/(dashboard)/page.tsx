@@ -7,6 +7,7 @@ const DashboardHomePage = () => {
 			<AdminHeader title='Dashboard' />
 			<SimpleCard>
 				<p>Content</p>
+				<p>Content</p>
 			</SimpleCard>
 		</>
 	);
