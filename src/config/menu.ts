@@ -44,6 +44,11 @@ export const menu: MenuGroup[] = [
 				icon: Info,
 				href: '/admin/categories',
 			},
+			{
+				title: 'Authors',
+				icon: Users,
+				href: '/admin/authors',
+			},
 		],
 	},
 	{
