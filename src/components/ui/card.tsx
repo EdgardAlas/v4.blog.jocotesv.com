@@ -87,6 +87,11 @@ const SimpleCard = ({
 		/>
 	);
 };
+
+const SimpleCardTitle = ({ title }: { title: string }) => {
+	return <h2 className='text-lg font-semibold'>{title}</h2>;
+};
+
 export {
 	Card,
 	CardHeader,
@@ -95,4 +100,5 @@ export {
 	CardDescription,
 	CardContent,
 	SimpleCard,
+	SimpleCardTitle,
 };

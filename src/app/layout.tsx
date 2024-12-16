@@ -25,7 +25,7 @@ export default function RootLayout({
 			<body className={`${geistSans.className} antialiased`}>
 				<ConfirmDialogProvider>
 					<NuqsAdapter>{children}</NuqsAdapter>
-					<Toaster richColors />
+					<Toaster richColors theme='light' />
 				</ConfirmDialogProvider>
 			</body>
 		</html>

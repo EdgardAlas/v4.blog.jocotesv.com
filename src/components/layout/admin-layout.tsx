@@ -1,15 +1,15 @@
 import { AdminContent } from '@/components/layout/admin-content';
-import { AdminHeader } from '@/components/layout/admin-header';
+import { AdminBreadcrumbs } from '@/components/layout/admin-breadcrumbs';
 import { AdminSidebar } from '@/components/layout/admin-sidebar';
 import { Children, isValidElement } from 'react';
 
 export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 	const Header = Children.toArray(children).find(
-		(child) => isValidElement(child) && child.type === AdminHeader
+		(child) => isValidElement(child) && child.type === AdminBreadcrumbs
 	);
 
 	const Main = Children.toArray(children).find(
-		(child) => isValidElement(child) && child.type !== AdminHeader
+		(child) => isValidElement(child) && child.type !== AdminBreadcrumbs
 	);
 
 	return (
