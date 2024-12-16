@@ -51,6 +51,7 @@
 		"react-hook-form": "^7.54.1",
 		"react-medium-image-zoom": "^5.2.12",
 		"sonner": "^1.7.1",
+		"stan-js": "^1.6.0",
 		"tailwind-merge": "^2.5.5",
 		"tailwindcss-animate": "^1.0.7",
 		"zod": "^3.24.1"
