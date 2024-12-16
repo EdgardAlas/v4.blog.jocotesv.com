@@ -1,13 +1,11 @@
-import {
-	mockUsers,
-	UsersColumns,
-} from '@/app/admin/(dashboard)/users/_containers/users-columns';
+import { UsersModal } from '@/app/admin/(dashboard)/users/_containers/users-modal';
 import { AdminBreadcrumbs } from '@/components/layout/admin-breadcrumbs';
 import { AdminCardTitle } from '@/components/layout/admin-card-title';
-import { Button } from '@/components/ui/button';
 import { SimpleCard } from '@/components/ui/card';
+import { CrudOpenButton } from '@/components/ui/crud/crud-open-button';
 import { LoadDataTable } from '@/components/ui/data-table/load-data-table';
 import { generateBreadcrumbs } from '@/utils/generate-breadcrumbs';
+import { mockUsers, UsersColumns } from './_containers/users-columns';
 
 const getUsers = async () => {
 	await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -28,11 +26,13 @@ const UsersPage = () => {
 
 			<SimpleCard>
 				<AdminCardTitle title='Users Management'>
-					<Button autoFocus>Add User</Button>
+					<CrudOpenButton autoFocus>Add User</CrudOpenButton>
 				</AdminCardTitle>
 
 				<LoadDataTable promise={getUsers} columns={UsersColumns} />
 			</SimpleCard>
+
+			<UsersModal />
 		</>
 	);
 };

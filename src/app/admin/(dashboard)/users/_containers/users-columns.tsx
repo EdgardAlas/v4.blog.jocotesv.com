@@ -1,15 +1,8 @@
 'use client';
 
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { CrudTableOptions } from '@/components/ui/crud/crud-table-options';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
-import { EllipsisVertical } from 'lucide-react';
-import { toast } from 'sonner';
 
 interface UserRow {
 	id: number;
@@ -71,29 +64,20 @@ export const UsersColumns: ColumnDef<UserRow>[] = [
 	{
 		accessorKey: 'id',
 		header: '',
-		cell() {
+		cell({ row: { original } }) {
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger>
-						<EllipsisVertical />
-					</DropdownMenuTrigger>
-					<DropdownMenuContent>
-						<DropdownMenuItem
-							onClick={() => {
-								toast.success('Edit clicked');
-							}}
-						>
-							Edit
-						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={() => {
-								toast.error('Delete clicked');
-							}}
-						>
-							Delete
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<CrudTableOptions
+					getEditData={() =>
+						new Promise((resolve) =>
+							setTimeout(() => {
+								resolve(original);
+							}, 1000)
+						)
+					}
+					deleteData={() => {
+						return new Promise((resolve) => setTimeout(resolve, 1000));
+					}}
+				/>
 			);
 		},
 	},
