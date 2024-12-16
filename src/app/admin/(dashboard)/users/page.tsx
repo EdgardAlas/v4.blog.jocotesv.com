@@ -4,7 +4,6 @@ import { AdminCardTitle } from '@/components/layout/admin-card-title';
 import { SimpleCard } from '@/components/ui/card';
 import { CrudOpenButton } from '@/components/ui/crud/crud-open-button';
 import { LoadDataTable } from '@/components/ui/data-table/load-data-table';
-import { generateBreadcrumbs } from '@/utils/generate-breadcrumbs';
 import { mockUsers, UsersColumns } from './_containers/users-columns';
 
 const getUsers = async () => {
@@ -19,9 +18,7 @@ const UsersPage = () => {
 	return (
 		<>
 			<AdminBreadcrumbs
-				breadcrumbs={generateBreadcrumbs([
-					{ title: 'Users', link: '/admin/dashboard/users' },
-				])}
+				breadcrumbs={[{ title: 'Users', link: '/admin/dashboard/users' }]}
 			/>
 
 			<SimpleCard>

@@ -6,6 +6,7 @@ import {
 	BreadcrumbList,
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { generateBreadcrumbs } from '@/utils/generate-breadcrumbs';
 import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { Fragment } from 'react';
@@ -17,7 +18,8 @@ interface PageHeaderProps {
 	}[];
 }
 
-export const AdminBreadcrumbs = ({ breadcrumbs }: PageHeaderProps) => {
+export const AdminBreadcrumbs = ({ breadcrumbs = [] }: PageHeaderProps) => {
+	const breandcrumbsToRender = [...generateBreadcrumbs(), ...breadcrumbs];
 	return (
 		<header className='flex h-16 items-center justify-between gap-4 bg-background py-4'>
 			<div className='flex items-center gap-2'>
@@ -26,7 +28,7 @@ export const AdminBreadcrumbs = ({ breadcrumbs }: PageHeaderProps) => {
 				</div>
 				<Breadcrumb>
 					<BreadcrumbList>
-						{breadcrumbs?.map((breadcrumb, index) => (
+						{breandcrumbsToRender?.map((breadcrumb, index) => (
 							<Fragment key={breadcrumb.title}>
 								<BreadcrumbItem>
 									<BreadcrumbLink asChild>
@@ -34,7 +36,9 @@ export const AdminBreadcrumbs = ({ breadcrumbs }: PageHeaderProps) => {
 									</BreadcrumbLink>
 								</BreadcrumbItem>
 
-								{index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+								{index < breandcrumbsToRender.length - 1 && (
+									<BreadcrumbSeparator />
+								)}
 							</Fragment>
 						))}
 					</BreadcrumbList>
