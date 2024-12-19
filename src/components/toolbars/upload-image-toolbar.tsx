@@ -10,7 +10,12 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { FormInput } from '@/components/ui/form/form-input';
+import {
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
 import { FormProvider } from '@/components/ui/form/form-provider';
 import { Input } from '@/components/ui/input';
 import {
@@ -94,30 +99,43 @@ export const UploadImageToolbar = () => {
 			<DialogContent>
 				<DialogTitle>Add Image</DialogTitle>
 				<FormProvider
-					className='flex flex-col gap-2'
+					className='flex flex-col gap-4'
 					form={form}
 					onSubmit={addImage}
 				>
-					<FormInput
-						input={Input}
-						type='file'
+					<FormField
+						control={form.control}
 						name='file'
-						value={undefined}
-						onChange={(event) => {
-							if (!event?.target?.files?.[0]) return;
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Image</FormLabel>
+								<Input
+									type='file'
+									id='file'
+									accept='image/*'
+									onChange={(event) => {
+										if (!event?.target?.files?.[0]) return;
 
-							form.formState.errors.file = undefined;
+										form.formState.errors.file = undefined;
 
-							form.setValue('file', event?.target?.files?.[0]);
-						}}
+										field.onChange(event?.target?.files?.[0]);
+									}}
+								/>
+								<FormMessage />
+							</FormItem>
+						)}
 					/>
 
-					<FormInput
-						input={Input}
-						type='text'
+					<FormField
+						control={form.control}
 						name='alt'
-						label='Alt Text'
-						placeholder='Image Alt Text'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Alt Text</FormLabel>
+								<Input type='text' placeholder='Image Alt Text' {...field} />
+								<FormMessage />
+							</FormItem>
+						)}
 					/>
 
 					<DialogFooter>

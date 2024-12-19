@@ -26,6 +26,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Trash } from 'lucide-react';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import slugify from 'slugify';
 import { z } from 'zod';
@@ -75,6 +76,7 @@ export const PostEditorForm = () => {
 	});
 
 	const id = form.watch('id');
+	const content = form.watch('content');
 
 	return (
 		<FormProvider
@@ -112,8 +114,13 @@ export const PostEditorForm = () => {
 							Save
 						</Button>
 
-						<Button className='w-full' variant='secondary'>
-							Preview
+						<Button className='w-full' variant='secondary' asChild>
+							{/* 
+								This is temporary.
+							*/}
+							<Link href={`/post/preview?code=${content}`} target='_blank'>
+								Preview
+							</Link>
 						</Button>
 					</div>
 
