@@ -17,10 +17,14 @@ type FormInputProps<T, E extends React.ElementType> = {
 	name: T;
 	label?: string | React.ReactNode;
 	description?: string;
-	classNames?: Record<
-		'container' | 'label' | 'input' | 'description' | 'error',
-		string
-	>;
+	classNames?: {
+		container?: string;
+		label?: string;
+		input?: string;
+		description?: string;
+		error?: string;
+	};
+	noForm?: boolean;
 } & Omit<React.ComponentProps<E>, 'name'>;
 
 export const FormInput = <T, E extends React.ElementType>({
@@ -41,7 +45,9 @@ export const FormInput = <T, E extends React.ElementType>({
 			control={form.control}
 			name={name as string}
 			render={({ field, fieldState }) => (
-				<FormItem className={cn(classNames?.container)}>
+				<FormItem
+					className={cn('flex flex-col gap-1 space-y-0', classNames?.container)}
+				>
 					{typeof label === 'string' ? (
 						<FormLabel className={cn(classNames?.label)}>{label}</FormLabel>
 					) : (
@@ -61,9 +67,7 @@ export const FormInput = <T, E extends React.ElementType>({
 							)}
 						/>
 					</FormControl>
-					<FormDescription
-						className={cn('text-right', classNames?.description)}
-					>
+					<FormDescription className={cn(classNames?.description)}>
 						{description}
 					</FormDescription>
 					<FormMessage

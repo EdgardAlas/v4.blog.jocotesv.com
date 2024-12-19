@@ -15,7 +15,7 @@ export const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
 			<AdminSidebar />
-			<main className='mb-4 w-full'>
+			<main className='w-full'>
 				{Header}
 				<AdminContent>{Main}</AdminContent>
 			</main>

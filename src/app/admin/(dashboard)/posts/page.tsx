@@ -2,6 +2,7 @@
 
 import { AdminBreadcrumbs } from '@/components/layout/admin-breadcrumbs';
 import { AdminCardTitle } from '@/components/layout/admin-card-title';
+import { Button } from '@/components/ui/button';
 import { SimpleCard } from '@/components/ui/card';
 import { DataTableInputSearch } from '@/components/ui/data-table/data-table-input-search';
 import { DataTablePagination } from '@/components/ui/data-table/data-table-pagination';
@@ -13,6 +14,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import Link from 'next/link';
 import { useQueryState } from 'nuqs';
 
 const PostsPage = () => {
@@ -28,7 +30,12 @@ const PostsPage = () => {
 			/>
 
 			<SimpleCard>
-				<AdminCardTitle title='Posts' />
+				<div className='flex justify-between'>
+					<AdminCardTitle title='Posts' />
+					<Button asChild>
+						<Link href='/admin/post/create'>Create Post</Link>
+					</Button>
+				</div>
 				<DataTableInputSearch
 					direction='end'
 					className='flex-col-reverse gap-2 md:flex-row-reverse md:justify-start'
@@ -56,7 +63,7 @@ const PostsPage = () => {
 								categories: post.categories,
 								isPublished: post.isPublished,
 								author: post.author,
-								url: `/admin/posts/${post.id}`,
+								url: `/admin/post/${post.id}`,
 							}}
 						/>
 					))}

@@ -77,10 +77,21 @@ const FormItem = React.forwardRef<
 	React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
 	const id = React.useId();
+	const { error } = useFormField();
 
 	return (
 		<FormItemContext.Provider value={{ id }}>
-			<div ref={ref} className={cn('space-y-2', className)} {...props} />
+			<div
+				ref={ref}
+				className={cn(
+					'space-y-2',
+					{
+						'[&_.input-error]:border-destructive': error,
+					},
+					className
+				)}
+				{...props}
+			/>
 		</FormItemContext.Provider>
 	);
 });
@@ -131,6 +142,10 @@ const FormDescription = React.forwardRef<
 	React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
 	const { formDescriptionId } = useFormField();
+
+	if (!props.children) {
+		return null;
+	}
 
 	return (
 		<p
