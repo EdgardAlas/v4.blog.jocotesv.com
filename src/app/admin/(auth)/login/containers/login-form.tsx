@@ -1,13 +1,18 @@
 'use client';
 
-import { LoginSchema, loginSchemaResolver } from '../_lib/login.schema';
 import { Button } from '@/components/ui/button';
-import { FormInput } from '@/components/ui/form/form-input';
+import {
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
 import { FormProvider } from '@/components/ui/form/form-provider';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { LoginSchema, loginSchemaResolver } from '../_lib/login.schema';
 
 export function LoginForm() {
 	const form = useForm<LoginSchema>({
@@ -30,28 +35,36 @@ export function LoginForm() {
 				<h1 className='text-2xl font-bold'>Login to your account</h1>
 			</div>
 			<div className='grid gap-4'>
-				<FormInput
-					label='Email'
-					type='email'
-					input={Input}
+				<FormField
+					control={form.control}
 					name='email'
-					autoFocus
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<Input {...field} type='email' autoFocus />
+							<FormMessage />
+						</FormItem>
+					)}
 				/>
-				<FormInput
-					label={
-						<div className='flex items-center'>
-							<Label htmlFor='password'>Password</Label>
-							<a
-								href='#'
-								className='ml-auto text-sm underline-offset-4 hover:underline'
-							>
-								Forgot your password?
-							</a>
-						</div>
-					}
-					type='password'
-					input={PasswordInput}
+
+				<FormField
+					control={form.control}
 					name='password'
+					render={({ field }) => (
+						<FormItem>
+							<div className='flex items-center'>
+								<FormLabel htmlFor='password'>Password</FormLabel>
+								<Link
+									href='#'
+									className='ml-auto text-sm underline-offset-4 hover:underline'
+								>
+									Forgot your password?
+								</Link>
+							</div>
+							<PasswordInput {...field} />
+							<FormMessage />
+						</FormItem>
+					)}
 				/>
 				<Button type='submit' className='w-full'>
 					Login
