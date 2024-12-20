@@ -201,7 +201,7 @@ export const Editor = ({ onChange, value }: EditorProps) => {
 						value: editor.getHTML().replaceAll('contenteditable="true"', ''),
 					},
 				});
-			}, 500);
+			}, 300);
 		},
 		shouldRerenderOnTransaction: false,
 	});

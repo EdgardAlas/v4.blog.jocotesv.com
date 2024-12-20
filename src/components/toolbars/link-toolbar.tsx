@@ -106,7 +106,7 @@ export function LinkToolbar() {
 							<button
 								aria-label='Create link'
 								className={cn('toggle-button', {
-									'bg-primary text-accent': editor.isActive('link'),
+									'!bg-primary text-accent': editor.isActive('link'),
 								})}
 							>
 								<LinkIcon className='h-4 w-4' />
@@ -172,6 +172,24 @@ export function LinkToolbar() {
 							<Button type='submit' className='w-full'>
 								Create Link
 							</Button>
+							{editor.isActive('link') && (
+								<Button
+									type='button'
+									variant={'destructive'}
+									onClick={() => {
+										editor
+											.chain()
+											.focus()
+											.extendMarkRange('link')
+											.unsetLink()
+											.run();
+										setOpen(false);
+									}}
+									className='w-full'
+								>
+									Remove Link
+								</Button>
+							)}
 						</FormProvider>
 					</PopoverContent>
 				</Popover>

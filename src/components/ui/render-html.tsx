@@ -1,14 +1,13 @@
 import { toHtml } from 'hast-util-to-html';
 import htmlToReact from 'html-react-parser';
 import { all, createLowlight } from 'lowlight';
-import sanitizeHtml from 'sanitize-html';
 
 const lowlight = createLowlight(all);
 
 export const RenderHTML = ({ code }: { code: string }) => {
 	return (
 		<div className='post'>
-			{htmlToReact(sanitizeHtml(code), {
+			{htmlToReact(code, {
 				replace(domNode) {
 					if (domNode.type === 'tag' && domNode.name === 'code') {
 						const language =

@@ -57,7 +57,7 @@ const HeadingButton = ({ tag: Tag, onClick }: ColorHighlightButtonProps) => (
 export const HeadingToolbar = () => {
 	const { editor } = useToolbar();
 
-	const handleSetColor = (level: number) => {
+	const handleSetHeading = (level: number) => {
 		// @ts-expect-error - fix later
 		editor?.chain().focus().toggleHeading({ level: level }).run();
 	};
@@ -88,14 +88,19 @@ export const HeadingToolbar = () => {
 				</TooltipProvider>
 				<PopoverContent align='start' className='dark:bg-gray-2 w-56 p-1'>
 					<ScrollArea className='max-h-80 overflow-y-auto pr-2'>
-						<div className='text-gray-11 mb-2.5 mt-2 px-2 text-xs'>Color</div>
+						<div className='text-gray-11 mb-2.5 mt-2 px-2 text-xs'>
+							Headings
+						</div>
 						{HEADINGS.map(({ id, tag }) => (
 							<HeadingButton
 								key={id}
 								tag={tag}
-								onClick={() => handleSetColor(id)}
+								onClick={() => handleSetHeading(id)}
 							/>
 						))}
+						<p className='text-gray-11 mt-2 px-2 text-xs'>
+							Clicking the heading toggles it between a heading and a paragraph
+						</p>
 					</ScrollArea>
 				</PopoverContent>
 			</div>
