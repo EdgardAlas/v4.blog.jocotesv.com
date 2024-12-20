@@ -27,20 +27,27 @@ export const FormProvider = <T extends FieldValues>(
 			<form
 				noValidate
 				{...rest}
-				onSubmit={form.handleSubmit(async (values) => {
-					if (isLoading) {
-						return;
-					}
+				onSubmit={(e) => {
+					// Prevent the default form submission
+					e.preventDefault();
+					// Prevent parent form submission
+					e.stopPropagation();
 
-					setIsLoading(true);
-					try {
-						await onSubmit(values);
-					} catch (error) {
-						throw error;
-					} finally {
-						setIsLoading(false);
-					}
-				}, onValidationError)}
+					form.handleSubmit(async (values) => {
+						if (isLoading) {
+							return;
+						}
+
+						setIsLoading(true);
+						try {
+							await onSubmit(values);
+						} catch (error) {
+							throw error;
+						} finally {
+							setIsLoading(false);
+						}
+					}, onValidationError)();
+				}}
 			/>
 		</LibFormProvider>
 	);

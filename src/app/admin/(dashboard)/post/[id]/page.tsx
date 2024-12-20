@@ -7,7 +7,7 @@ const CreateOrEditPostPage = () => {
 			<AdminBreadcrumbs
 				breadcrumbs={[
 					{ title: 'Posts', link: '/admin/posts' },
-					{ title: 'Edit Post', link: '/admin/post/create' },
+					{ title: 'Edit Post', link: '/admin/post/1' },
 				]}
 			/>
 

@@ -43,6 +43,7 @@ type FormValues = z.infer<typeof formSchema>;
 export function LinkToolbar() {
 	const [open, setOpen] = React.useState(false);
 	const { editor } = useToolbar();
+	const formRef = React.useRef<HTMLFormElement>(null);
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -118,6 +119,7 @@ export function LinkToolbar() {
 					</TooltipContent>
 					<PopoverContent className='w-80'>
 						<FormProvider
+							ref={formRef}
 							form={form}
 							onSubmit={onSubmit}
 							className='flex flex-col gap-4'
@@ -175,6 +177,7 @@ export function LinkToolbar() {
 							{editor.isActive('link') && (
 								<Button
 									type='button'
+									form='link-form'
 									variant={'destructive'}
 									onClick={() => {
 										editor

@@ -42,6 +42,7 @@ const postSchema = z
 		categories: z.array(z.string()),
 		status: z.enum(['draft', 'published']),
 		publicationDate: z.date(),
+		author: z.enum(['author-1', 'author-2', 'author-3']),
 	})
 	.refine(
 		(data) => {
@@ -70,6 +71,7 @@ export const PostEditorForm = () => {
 			id: '1',
 			categories: [],
 			status: 'draft',
+			author: 'author-1',
 			publicationDate: new Date(),
 		},
 		resolver: zodResolver(postSchema),
@@ -83,6 +85,9 @@ export const PostEditorForm = () => {
 			form={form}
 			onSubmit={(data) => {
 				console.log(data);
+			}}
+			onValidationError={(errors) => {
+				console.log(errors);
 			}}
 		>
 			<div className='flex flex-col gap-4 md:max-w-[calc(100dvw-255px-32px)] xl:max-w-[unset] xl:flex-row xl:items-start'>
@@ -225,9 +230,35 @@ export const PostEditorForm = () => {
 
 						<FormField
 							control={form.control}
+							name='author'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Author</FormLabel>
+									<Select
+										onValueChange={field.onChange}
+										defaultValue={field.value}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='Select an option' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectItem value='author-1'>Author 1</SelectItem>
+											<SelectItem value='author-2'>Author 2</SelectItem>
+											<SelectItem value='author-3'>Author 3</SelectItem>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
 							name='publicationDate'
 							render={({ field }) => (
-								<FormItem className='flex flex-col'>
+								<FormItem>
 									<FormLabel>Publication Date</FormLabel>
 									<DatePicker value={field.value} onChange={field.onChange} />
 									<FormMessage />
