@@ -175,6 +175,7 @@ export const PostEditorForm = () => {
 											{...field}
 										/>
 										<Button
+											type='button'
 											size={'sm'}
 											onClick={() =>
 												form.setValue(
