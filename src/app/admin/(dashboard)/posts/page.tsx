@@ -1,28 +1,15 @@
-'use client';
-
+import { StatusFilter } from '@/app/admin/(dashboard)/posts/_containers/status-filter';
 import { AdminBreadcrumbs } from '@/components/layout/admin-breadcrumbs';
 import { AdminCardTitle } from '@/components/layout/admin-card-title';
 import { Button } from '@/components/ui/button';
 import { SimpleCard } from '@/components/ui/card';
-import { DataTableInputSearch } from '@/components/ui/data-table/data-table-input-search';
 import { DataTablePagination } from '@/components/ui/data-table/data-table-pagination';
 import { PostCard } from '@/components/ui/post-card';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
-import { useQueryState } from 'nuqs';
+import { Suspense } from 'react';
 
 const PostsPage = () => {
-	const [status, setStatus] = useQueryState('status', {
-		defaultValue: 'all',
-		shallow: false,
-	});
-
 	return (
 		<>
 			<AdminBreadcrumbs
@@ -36,21 +23,16 @@ const PostsPage = () => {
 						<Link href='/admin/post/create'>Create Post</Link>
 					</Button>
 				</div>
-				<DataTableInputSearch
-					direction='end'
-					className='flex-col-reverse gap-2 md:flex-row-reverse md:justify-start'
+				<Suspense
+					fallback={
+						<div className='mb-3 flex flex-col-reverse items-center gap-2 md:flex-row-reverse md:justify-start'>
+							<Skeleton className='h-9 w-full max-w-md' />
+							<Skeleton className='h-9 w-full max-w-md md:w-[100px]' />
+						</div>
+					}
 				>
-					<Select defaultValue={status} onValueChange={setStatus}>
-						<SelectTrigger className='max-w-md md:w-[100px]'>
-							<SelectValue placeholder='Filter by status' />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value='all'>All</SelectItem>
-							<SelectItem value='published'>Published</SelectItem>
-							<SelectItem value='draft'>Draft</SelectItem>
-						</SelectContent>
-					</Select>
-				</DataTableInputSearch>
+					<StatusFilter />
+				</Suspense>
 
 				<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
 					{mockupPosts.map((post) => (
@@ -68,7 +50,10 @@ const PostsPage = () => {
 						/>
 					))}
 				</div>
-				<DataTablePagination totalPages={10} />
+
+				<Suspense fallback={<Skeleton className='h-9 w-full' />}>
+					<DataTablePagination totalPages={10} />
+				</Suspense>
 			</SimpleCard>
 		</>
 	);

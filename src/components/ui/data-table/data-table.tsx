@@ -20,6 +20,8 @@ import {
 	DataTablePagination,
 	DataTablePaginationProps,
 } from './data-table-pagination';
+import { Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface DataTableProps<TData, TValue> extends DataTablePaginationProps {
 	columns: ColumnDef<TData, TValue>[];
@@ -42,7 +44,9 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			{hasSearch && <DataTableInputSearch />}
+			<Suspense fallback={<Skeleton className='mb-3 h-9 w-full max-w-md' />}>
+				{hasSearch && <DataTableInputSearch />}
+			</Suspense>
 
 			<div className='overflow-hidden rounded-md border'>
 				<Table>
@@ -94,14 +98,16 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			{totalPages && (
-				<div className='mt-3'>
-					<DataTablePagination
-						totalPages={totalPages}
-						pageSizeOptions={pageSizeOptions}
-					/>
-				</div>
-			)}
+			<Suspense fallback={<Skeleton className='mt-3 h-10 w-full' />}>
+				{totalPages && (
+					<div className='mt-3'>
+						<DataTablePagination
+							totalPages={totalPages}
+							pageSizeOptions={pageSizeOptions}
+						/>
+					</div>
+				)}
+			</Suspense>
 		</div>
 	);
 }
