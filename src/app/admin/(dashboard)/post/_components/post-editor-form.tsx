@@ -1,81 +1,47 @@
-/* eslint-disable @next/next/no-img-element*/
 'use client';
 
+import { PostClasificationFields } from '@/app/admin/(dashboard)/post/_components/post-clasification-fields';
+import { PostGeneralFields } from '@/app/admin/(dashboard)/post/_components/post-general-fields';
+import { PostSeoFields } from '@/app/admin/(dashboard)/post/_components/post-seo-fields';
+import {
+	PostSchema,
+	postSchemaResolver,
+} from '@/app/admin/(dashboard)/post/_lib/post.schema';
 import { Editor } from '@/components/editor';
 import { AdminCardTitle } from '@/components/layout/admin-card-title';
 import { Button } from '@/components/ui/button';
 import { SimpleCard } from '@/components/ui/card';
-import DatePicker from '@/components/ui/date-picker';
 import {
 	FormControl,
 	FormField,
 	FormItem,
-	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
 import { FormProvider } from '@/components/ui/form/form-provider';
-import { Input } from '@/components/ui/input';
-import { MultiSelect } from '@/components/ui/multi-select';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Trash } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Monitor, Save } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import slugify from 'slugify';
-import { z } from 'zod';
+import { toast } from 'sonner';
 
-const postSchema = z
-	.object({
-		title: z.string().nonempty("Title can't be empty"),
-		content: z.string().nonempty("Content can't be empty"),
-		image: z.string(),
-		slug: z.string().nonempty("Slug can't be empty"),
-		description: z.string().nonempty("Description can't be empty"),
-		id: z.string(),
-		categories: z.array(z.string()),
-		status: z.enum(['draft', 'published']),
-		publicationDate: z.date(),
-		author: z.enum(['author-1', 'author-2', 'author-3']),
-	})
-	.refine(
-		(data) => {
-			if (data.status === 'published' && !data.publicationDate) {
-				return false;
-			}
+interface PostEditorFormProps {
+	post: PostSchema;
+}
 
-			return true;
-		},
-		{
-			message: 'Publication date is required for published posts',
-			path: ['publicationDate'],
-		}
-	);
+const tabFields = {
+	general: ['status', 'title', 'slug', 'publicationDate', 'date'],
+	content: ['description', 'image'],
+	classification: ['categories', 'author'],
+};
 
-export const PostEditorForm = () => {
-	const form = useForm({
-		defaultValues: {
-			title: '',
-			content: `
-				<h1>Post Title</h1>
-			`,
-			image: '',
-			slug: '',
-			description: '',
-			id: '1',
-			categories: [],
-			status: 'draft',
-			author: 'author-1',
-			publicationDate: new Date(),
-		},
-		resolver: zodResolver(postSchema),
+export const PostEditorForm = ({ post }: PostEditorFormProps) => {
+	const form = useForm<PostSchema>({
+		defaultValues: post,
+		resolver: postSchemaResolver,
 	});
+
+	const [activeTab, setActiveTab] = useState('general');
 
 	const id = form.watch('id');
 	const content = form.watch('content');
@@ -86,8 +52,16 @@ export const PostEditorForm = () => {
 			onSubmit={(data) => {
 				console.log(data);
 			}}
-			onValidationError={(errors) => {
-				console.log(errors);
+			onValidationError={(error) => {
+				const firstKey = Object.keys(error)[0];
+
+				const activeTab = Object.keys(tabFields).find((tab) =>
+					tabFields[tab as keyof typeof tabFields].includes(firstKey)
+				);
+
+				if (activeTab) setActiveTab(activeTab);
+
+				toast.error('Please check the form for errors.');
 			}}
 		>
 			<div className='flex flex-col gap-4 md:max-w-[calc(100dvw-255px-32px)] xl:max-w-[unset] xl:flex-row xl:items-start'>
@@ -99,10 +73,12 @@ export const PostEditorForm = () => {
 						name='content'
 						render={({ field }) => (
 							<FormItem>
-								<Editor
-									value={field.value}
-									onChange={(e) => field.onChange(e.target.value)}
-								/>
+								<FormControl>
+									<Editor
+										value={field.value}
+										onChange={(e) => field.onChange(e.target.value)}
+									/>
+								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -115,195 +91,39 @@ export const PostEditorForm = () => {
 							type='submit'
 							className='w-full'
 							loading={form.formState.isSubmitting}
+							icon={Save}
 						>
 							Save
 						</Button>
 
-						<Button className='w-full' variant='secondary' asChild>
-							{/* 
-								This is temporary.
-							*/}
+						<Button
+							className='w-full'
+							variant='secondary'
+							asChild
+							icon={Monitor}
+						>
 							<Link href={`/post/preview?code=${content}`} target='_blank'>
 								Preview
 							</Link>
 						</Button>
 					</div>
 
-					<div className='flex flex-col gap-4'>
-						<FormField
-							control={form.control}
-							name='status'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Status*</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										defaultValue={field.value}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Select an option' />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											<SelectItem value='draft'>Draft</SelectItem>
-											<SelectItem value='published'>Published</SelectItem>
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='title'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Title*</FormLabel>
-									<Input type='text' placeholder='Post Title' {...field} />
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+					<Tabs
+						defaultValue='general'
+						className='h-full w-full'
+						value={activeTab}
+						onValueChange={setActiveTab}
+					>
+						<TabsList className='flex space-x-4 border-b'>
+							<TabsTrigger value='general'>General</TabsTrigger>
+							<TabsTrigger value='content'>SEO</TabsTrigger>
+							<TabsTrigger value='classification'>Classification</TabsTrigger>
+						</TabsList>
 
-						<FormField
-							control={form.control}
-							name='slug'
-							render={({ field }) => (
-								<FormItem className='flex-1'>
-									<FormLabel>Slug*</FormLabel>
-									<div className='flex items-center gap-2'>
-										<Input
-											type='text'
-											className='w-full flex-1'
-											placeholder='Post Slug'
-											{...field}
-										/>
-										<Button
-											type='button'
-											size={'sm'}
-											onClick={() =>
-												form.setValue(
-													'slug',
-													slugify(form.getValues('title'), { lower: true })
-												)
-											}
-										>
-											Generate
-										</Button>
-									</div>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name='description'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Description*</FormLabel>
-									<Textarea placeholder='Post Description' {...field} />
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='categories'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Categories</FormLabel>
-									<MultiSelect
-										options={[
-											{ label: 'Category 1', value: 'category-1' },
-											{ label: 'Category 2', value: 'category-2' },
-											{ label: 'Category 3', value: 'category-3' },
-										]}
-										onChange={field.onChange}
-										defaultValue={field.value}
-									/>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name='author'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Author</FormLabel>
-									<Select
-										onValueChange={field.onChange}
-										defaultValue={field.value}
-									>
-										<FormControl>
-											<SelectTrigger>
-												<SelectValue placeholder='Select an option' />
-											</SelectTrigger>
-										</FormControl>
-										<SelectContent>
-											<SelectItem value='author-1'>Author 1</SelectItem>
-											<SelectItem value='author-2'>Author 2</SelectItem>
-											<SelectItem value='author-3'>Author 3</SelectItem>
-										</SelectContent>
-									</Select>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<FormField
-							control={form.control}
-							name='publicationDate'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Publication Date</FormLabel>
-									<DatePicker value={field.value} onChange={field.onChange} />
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='image'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Image</FormLabel>
-									{typeof field.value === 'string' && field.value ? (
-										<div className='relative w-full'>
-											<img src={field.value} alt='Post Image' />
-											<Button
-												className='absolute right-3 top-3'
-												size={'icon'}
-												onClick={() => {
-													form.setValue('image', '');
-												}}
-												variant={'destructive'}
-											>
-												<Trash />
-											</Button>
-										</div>
-									) : (
-										<Input
-											type='file'
-											accept='image/*'
-											ref={field.ref}
-											onChange={(e) => {
-												const file = e.target.files?.[0];
-												if (file) {
-													form.setValue('image', URL.createObjectURL(file));
-												}
-											}}
-										/>
-									)}
-
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
+						<PostGeneralFields />
+						<PostSeoFields />
+						<PostClasificationFields />
+					</Tabs>
 				</SimpleCard>
 			</div>
 		</FormProvider>

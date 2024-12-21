@@ -11,7 +11,23 @@ const CreateOrEditPostPage = () => {
 				]}
 			/>
 
-			<PostEditorForm />
+			<PostEditorForm
+				post={{
+					title: '',
+					content: `
+							<h1>Post Title</h1>
+						`,
+					image: '',
+					slug: '',
+					description: '',
+					id: '1',
+					categories: [],
+					status: 'draft',
+					author: 'author-1',
+					publicationDate: new Date(),
+					date: new Date(),
+				}}
+			/>
 		</>
 	);
 };

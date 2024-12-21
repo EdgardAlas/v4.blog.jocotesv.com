@@ -6,6 +6,7 @@ import { SimpleCard } from '@/components/ui/card';
 import { DataTablePagination } from '@/components/ui/data-table/data-table-pagination';
 import { PostCard } from '@/components/ui/post-card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
@@ -19,8 +20,8 @@ const PostsPage = () => {
 			<SimpleCard>
 				<div className='flex justify-between'>
 					<AdminCardTitle title='Posts' />
-					<Button asChild>
-						<Link href='/admin/post/create'>Create Post</Link>
+					<Button asChild icon={Plus}>
+						<Link href='/admin/post'>Create Post</Link>
 					</Button>
 				</div>
 				<Suspense
@@ -34,7 +35,7 @@ const PostsPage = () => {
 					<StatusFilter />
 				</Suspense>
 
-				<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+				<div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
 					{mockupPosts.map((post) => (
 						<PostCard
 							key={post.id}

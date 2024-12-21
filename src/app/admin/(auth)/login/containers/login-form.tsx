@@ -13,6 +13,7 @@ import { PasswordInput } from '@/components/ui/password-input';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { LoginSchema, loginSchemaResolver } from '../_lib/login.schema';
+import { LogInIcon } from 'lucide-react';
 
 export function LoginForm() {
 	const form = useForm<LoginSchema>({
@@ -66,7 +67,7 @@ export function LoginForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type='submit' className='w-full'>
+				<Button type='submit' className='w-full' icon={LogInIcon}>
 					Login
 				</Button>
 			</div>
