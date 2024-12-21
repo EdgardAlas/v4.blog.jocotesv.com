@@ -7,7 +7,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { FormProvider } from '@/components/ui/form/form-provider';
+import { FormProvider } from '@/components/ui/form-provider';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import Link from 'next/link';

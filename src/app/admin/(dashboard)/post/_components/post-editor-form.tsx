@@ -7,7 +7,7 @@ import {
 	PostSchema,
 	postSchemaResolver,
 } from '@/app/admin/(dashboard)/post/_lib/post.schema';
-import { Editor } from '@/components/editor';
+import { Editor } from '@/components/ui/editor';
 import { AdminCardTitle } from '@/components/layout/admin-card-title';
 import { Button } from '@/components/ui/button';
 import { SimpleCard } from '@/components/ui/card';
@@ -17,7 +17,7 @@ import {
 	FormItem,
 	FormMessage,
 } from '@/components/ui/form';
-import { FormProvider } from '@/components/ui/form/form-provider';
+import { FormProvider } from '@/components/ui/form-provider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Monitor, Save } from 'lucide-react';
 import Link from 'next/link';

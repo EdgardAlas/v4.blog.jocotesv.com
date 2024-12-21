@@ -11,7 +11,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { FormProvider } from '@/components/ui/form/form-provider';
+import { FormProvider } from '@/components/ui/form-provider';
 
 import { Input } from '@/components/ui/input';
 import {
