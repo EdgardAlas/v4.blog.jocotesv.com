@@ -1,12 +1,4 @@
-import {
-	Book,
-	ChartBar,
-	Home,
-	Info,
-	LucideIcon,
-	Settings,
-	Users,
-} from 'lucide-react';
+import { Book, Home, Info, LucideIcon, Users } from 'lucide-react';
 
 interface MenuOption {
 	title: string;
@@ -51,7 +43,7 @@ export const menu: MenuGroup[] = [
 			},
 		],
 	},
-	{
+	/* {
 		title: 'Analytics',
 		options: [
 			{
@@ -60,7 +52,7 @@ export const menu: MenuGroup[] = [
 				href: '/admin/analytics',
 			},
 		],
-	},
+	}, */
 	{
 		title: 'Settings',
 		options: [
@@ -69,11 +61,11 @@ export const menu: MenuGroup[] = [
 				icon: Users,
 				href: '/admin/users',
 			},
-			{
+			/* 	{
 				title: 'General',
 				icon: Settings,
 				href: '/admin/settings',
-			},
+			}, */
 		],
 	},
 ];
