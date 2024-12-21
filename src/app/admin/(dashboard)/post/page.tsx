@@ -19,6 +19,7 @@ const CreatePostPage = () => {
 							<h1>Post Title</h1>
 						`,
 					image: '',
+					featured: false,
 					slug: '',
 					description: '',
 					id: '1',

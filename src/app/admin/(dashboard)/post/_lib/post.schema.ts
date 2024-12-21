@@ -39,6 +39,7 @@ export const postSchema = z
 		categories: z.array(z.string()),
 		status: z.enum(['draft', 'published']),
 		publicationDate: z.date(),
+		featured: z.boolean(),
 		author: z
 			.enum(['author-1', 'author-2', 'author-3'], {
 				message: 'Invalid author',
