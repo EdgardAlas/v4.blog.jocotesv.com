@@ -63,7 +63,7 @@ export default function HomePage() {
 	);
 }
 
-export const posts = [
+const posts = [
 	{
 		id: '1',
 		title: 'Getting Started with Next.js',
