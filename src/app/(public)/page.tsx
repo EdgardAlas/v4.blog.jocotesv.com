@@ -31,7 +31,7 @@ export default function HomePage() {
 								key={post.id}
 								post={{
 									...post,
-									url: `/posts/${post.slug}`,
+									url: `/${post.slug}`,
 								}}
 							/>
 						))}
@@ -47,7 +47,7 @@ export default function HomePage() {
 								key={post.id}
 								post={{
 									...post,
-									url: `/posts/${post.slug}`,
+									url: `/${post.slug}`,
 								}}
 							/>
 						))}

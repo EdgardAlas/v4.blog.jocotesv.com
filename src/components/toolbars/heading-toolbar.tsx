@@ -15,18 +15,18 @@ import {
 } from '@/components/ui/tooltip';
 import {
 	ChevronDown,
-	Heading1,
 	Heading2,
 	Heading3,
+	Heading4,
 	HeadingIcon,
 	LucideIcon,
 } from 'lucide-react';
 
 const HEADINGS = [
-	{
+	/* {
 		tag: Heading1,
 		id: 1,
-	},
+	}, */
 	{
 		tag: Heading2,
 		id: 2,
@@ -34,6 +34,10 @@ const HEADINGS = [
 	{
 		tag: Heading3,
 		id: 3,
+	},
+	{
+		tag: Heading4,
+		id: 4,
 	},
 ];
 
